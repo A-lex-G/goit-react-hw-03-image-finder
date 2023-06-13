@@ -23,7 +23,7 @@ export class Searchbar extends Component {
       return
     }
 
-    this.props.onDataTransfer(inputTitle);
+    this.props.onNameTransfer(inputTitle);
 
     this.setState({ inputTitle: '' });
   }
