@@ -1,4 +1,5 @@
-import css from './Searchbar.module.css'
+import { Header, SearchForm, SearchFormButton, SearchFormInput } from './Searchbar.styled';
+
 const { Component } = require("react");
 
 export class Searchbar extends Component {
@@ -28,23 +29,22 @@ export class Searchbar extends Component {
 
   render() {
     return (
-      <header >
-        <form
-          className={css.SearchForm}
+      <Header >
+        <SearchForm
           onSubmit={this.handleSubmitForm}>
-          <button type="submit">
+          <SearchFormButton type="submit">
             <span>Search</span>
-          </button>
-          <input
+          </SearchFormButton>
+          <SearchFormInput
             type="text"
             // autocomplete="off"
             // autofocus
             placeholder="Search images and photos"
-            value = { this.state.inputTitle }
-            onChange= { this.handleSetstate }
+            value={this.state.inputTitle}
+            onChange={this.handleSetstate}
           />
-        </form>
-      </header>
+        </SearchForm>
+      </Header>
     )
   }
 }

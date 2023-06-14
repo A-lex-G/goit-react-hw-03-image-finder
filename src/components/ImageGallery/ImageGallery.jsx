@@ -1,10 +1,10 @@
-import css from "./ImageGallery.module.css";
 import { Component } from "react";
 import { fetchedImages } from "Services/imageAPI";
 import { ImageGalleryItem } from "components/ImageGalleryItem/ImageGalleryItem";
 import { Button } from "components/Button/Button";
 import { Loader } from "components/Loader/Loader";
 import { Modal } from "components/Modal/Modal";
+import { ImagesList } from './ImageGallery.styled';
 
 export class ImageGallery extends Component {
   abortCtrlr;
@@ -64,11 +64,13 @@ export class ImageGallery extends Component {
   }
 
   toggleModal = (e) => {
+    if (e && e.target) {
     this.setState(({ showModal }) => ({
       showModal: !showModal,
       selectedImage: e.target.currentSrc,
-    }))
+    }));
   }
+}
 
   render() {
     const {
@@ -86,15 +88,13 @@ export class ImageGallery extends Component {
         }
         
         {this.props.request &&
-          <ul
-            className={css.ImageGallery}
-          > 
+          <ImagesList > 
             
             <ImageGalleryItem
               imagesArr={images}
               onClick={this.toggleModal}
             />
-          </ul>
+          </ImagesList>
         }
         
         {showModal &&

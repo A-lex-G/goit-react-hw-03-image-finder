@@ -1,8 +1,7 @@
 import React, { Component } from "react";
-import css from "../Styles/styles.module.css"
+import { Overlay, Instance } from './Modal,styled';
 
 export class Modal extends Component {
-  // const selectedObj = imagesArr.find(obj => obj.largeImageURL === largeImg);
   state = {
     image: null,
   }
@@ -16,8 +15,8 @@ export class Modal extends Component {
   }
 
   handleEscClose = e => {
-    if (e.code === 'Escape') {
-      this.props.onCloseModal();
+    if (e.key === 'Escape') {
+      this.props.onCloseModal(e);
     }
   }
 
@@ -30,18 +29,16 @@ export class Modal extends Component {
   render() {
     return (
       this.props.imagesArr.map((image) => (
-        <div
+        <Overlay
           key={image.id}
-          className={css.Overlay}
           onClick={this.handleMouseClose}>
-          <div
-            className={css.Modal}>
+          <Instance>
             <img
               src={this.props.largeImg}
               alt={image.tags}
             />
-          </div>
-        </div>
+          </Instance>
+        </Overlay>
       ))
     )
   }
