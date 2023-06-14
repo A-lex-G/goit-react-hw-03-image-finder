@@ -1,5 +1,5 @@
-import css from "./ImageGallery.module.css"
-import { Component } from "react"
+import css from "./ImageGallery.module.css";
+import { Component } from "react";
 import { fetchedImages } from "Services/imageAPI";
 import { ImageGalleryItem } from "components/ImageGalleryItem/ImageGalleryItem";
 import { Button } from "components/Button/Button";
@@ -21,30 +21,34 @@ export class ImageGallery extends Component {
   }
 
   async componentDidUpdate(prevProps, prevState) {
-    const { query, page, images } = this.state;
-    const { request } = this.props;
+    const { query, page } = this.state;
+    const { request, defaultPage, defaultImages } = this.props;
 
     if (prevProps.request !== request) {
       this.setState({
-        query: request
+        query: request,
+        page: defaultPage,
+        images: defaultImages,
       })
     }
     
     if (prevState.query !== query || prevState.page !== page) {
       try {
         this.setState({
-          loading: true, error: null,
+          loading: true,
+          error: null,
         });
-        const recievedImages = await fetchedImages(query, page);
-        console.log(recievedImages)
+        const { hits, total, totalHits} = await fetchedImages(query, page);
 
         this.setState(prevState => ({
-          images: [...prevState.images, ...recievedImages.hits],
-          showButton: true,
+          images: [...prevState.images, ...hits],
+          showButton: page < Math.ceil(total / totalHits)
         }));
         
       } catch (error) {
-        this.setState({ error });
+        this.setState({
+          error
+        });
       } finally {
         this.setState({
           loading: false,
@@ -54,7 +58,6 @@ export class ImageGallery extends Component {
   }
 
   handleButtonClick = (e) => {
-    console.log(e.target)
     this.setState(prevState => ({
       page: prevState.page + 1,
     }));
@@ -68,9 +71,14 @@ export class ImageGallery extends Component {
   }
 
   render() {
-    const { images, loading, showModal, showButton, selectedImage } = this.state;
-    const { total, totalHits, hits } = images;
-    // console.log(images)
+    const {
+      images,
+      loading,
+      showModal,
+      showButton,
+      selectedImage,
+    } = this.state;
+    
     return (
       <>
         {loading &&
@@ -80,7 +88,6 @@ export class ImageGallery extends Component {
         {this.props.request &&
           <ul
             className={css.ImageGallery}
-            // onClick={this.handleModalClick}
           > 
             
             <ImageGalleryItem

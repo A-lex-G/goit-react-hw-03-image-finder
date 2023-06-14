@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 
 export const Button = ({ onClick }) => {
     return (
@@ -7,7 +8,6 @@ export const Button = ({ onClick }) => {
     )
 }
 
-
-{/* <button type="submit" onClick={() => (myApiFetch.fetchImages())}>
-    <span>Load more</span>
-</button> */}
+Button.propTypes = {
+    onClick: PropTypes.func.isRequired,
+}

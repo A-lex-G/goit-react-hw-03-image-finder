@@ -1,35 +1,36 @@
-import { Component } from "react"
+import { Component } from "react";
 import { Searchbar } from "./Searchbar/Searchbar";
 import { ImageGallery } from "./ImageGallery/ImageGallery";
-// import { Modal } from "./Modal/Modal";
-// import * as basicLightbox from 'basiclightbox';
 
 export class App extends Component {
 
   state = {
     imageName: '',
-    page: 1,
-    // images: null,
+    images: null,
+    page: null,
   }
 
   formNameGetter = (name) => {
     if (name !== "") {
       this.setState({
         imageName: name,
+        images: [],
+        page: 1,
       })
     }
   }
-
   
   render() {
-    const { imageName, page } = this.state
+    const { imageName, page,images } = this.state
     return (
       <>
         <Searchbar
           onNameTransfer={this.formNameGetter} />
         <ImageGallery
           request={imageName}
-          defaultPage={page} />
+          defaultPage={page}
+          defaultImages={images}
+        />
       </>
     );
   }

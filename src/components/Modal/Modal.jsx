@@ -39,7 +39,6 @@ export class Modal extends Component {
             <img
               src={this.props.largeImg}
               alt={image.tags}
-              // onClick={this.handleImageClick}
             />
           </div>
         </div>
