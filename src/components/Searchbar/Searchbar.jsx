@@ -8,9 +8,8 @@ export class Searchbar extends Component {
   }
 
   handleSetstate = (e) => {
-    const { value } = e.target;
     this.setState({
-      inputTitle: value,
+      inputTitle: e.target.value,
     });
   }
 
@@ -24,16 +23,15 @@ export class Searchbar extends Component {
     }
 
     this.props.onNameTransfer(inputTitle);
-
     this.setState({ inputTitle: '' });
   }
 
   render() {
-    const { inputTitle } = this.state;
-
     return (
       <header >
-        <form className={css.SearchForm} onSubmit={this.handleSubmitForm}>
+        <form
+          className={css.SearchForm}
+          onSubmit={this.handleSubmitForm}>
           <button type="submit">
             <span>Search</span>
           </button>
@@ -42,7 +40,7 @@ export class Searchbar extends Component {
             // autocomplete="off"
             // autofocus
             placeholder="Search images and photos"
-            value = { inputTitle }
+            value = { this.state.inputTitle }
             onChange= { this.handleSetstate }
           />
         </form>

@@ -8,7 +8,8 @@ export class App extends Component {
 
   state = {
     imageName: '',
-    images: null,
+    page: 1,
+    // images: null,
   }
 
   formNameGetter = (name) => {
@@ -19,22 +20,16 @@ export class App extends Component {
     }
   }
 
-  updateStateImages = (array) => {
-    this.setState({
-      images: array
-    })
-  }
   
   render() {
-    const { imageName } = this.state
+    const { imageName, page } = this.state
     return (
       <>
         <Searchbar
           onNameTransfer={this.formNameGetter} />
         <ImageGallery
           request={imageName}
-          changeImages={this.updateStateImages} />
-        {/* {imageName !== '' && <Button onFetch={() => myApiFetch.fetchImages()} />} */}
+          defaultPage={page} />
       </>
     );
   }

@@ -16,15 +16,18 @@ export class ImageGallery extends Component {
     loading: false,
     error: null,
     showModal: false,
+    showButton: false,
     selectedImage: null,
   }
 
   async componentDidUpdate(prevProps, prevState) {
-    const { query, page } = this.state;
+    const { query, page, images } = this.state;
     const { request } = this.props;
 
-    if (prevProps.request !==request) {
-      this.setState({ query: request })
+    if (prevProps.request !== request) {
+      this.setState({
+        query: request
+      })
     }
     
     if (prevState.query !== query || prevState.page !== page) {
@@ -33,14 +36,18 @@ export class ImageGallery extends Component {
           loading: true, error: null,
         });
         const recievedImages = await fetchedImages(query, page);
+        console.log(recievedImages)
+
         this.setState(prevState => ({
           images: [...prevState.images, ...recievedImages.hits],
+          showButton: true,
         }));
+        
       } catch (error) {
         this.setState({ error });
       } finally {
         this.setState({
-          loading: false
+          loading: false,
         });
       }
     } 
@@ -48,30 +55,22 @@ export class ImageGallery extends Component {
 
   handleButtonClick = (e) => {
     console.log(e.target)
-    this.setState(prevState => ({page: prevState.page + 1}))
+    this.setState(prevState => ({
+      page: prevState.page + 1,
+    }));
   }
 
-  handleTransferImages = () => {
-    this.props.changeImages(this.state.images);
-  }
-
-  toggleModal = () => {
-    // console.dir(e.target)
-    // e.preventDefault();
-    // if (e.target.nodeName !== "IMG") {
-    //   return;
-    // }
+  toggleModal = (e) => {
     this.setState(({ showModal }) => ({
       showModal: !showModal,
-      // selectedImage: e.target.currentSrc,
-      // selectedImage: this.state.images.find(obj => obj.largeImageURL === e.target.currentSrc)
-
+      selectedImage: e.target.currentSrc,
     }))
   }
 
   render() {
-    const { images, loading, showModal, selectedImage } = this.state;
-    // const { total, totalHits, hits} = images;
+    const { images, loading, showModal, showButton, selectedImage } = this.state;
+    const { total, totalHits, hits } = images;
+    // console.log(images)
     return (
       <>
         {loading &&
@@ -94,13 +93,13 @@ export class ImageGallery extends Component {
         {showModal &&
           <Modal
           imagesArr={images}
-          // largeImg={selectedImage}
+          largeImg={selectedImage}
           onCloseModal={this.toggleModal}
         />
         }
         
-        {images.length !== 0 &&
-          <Button onClick={this.handleButtonClick} onTransferImages={this.handleTransferImages(this.state.images)} />
+        {showButton &&
+          <Button onClick={this.handleButtonClick}  />
         }
       </>
     )

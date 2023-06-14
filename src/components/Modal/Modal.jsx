@@ -23,18 +23,11 @@ export class Modal extends Component {
 
   handleMouseClose = e => {
     if (e.currentTarget === e.target) {
-      this.props.onCloseModal()
+      this.props.onCloseModal(e)
     }
   }
 
-  // handleImageClick = (e) => {
-  //   console.log(e)
-  // }
-
   render() {
-    const selectedObj = this.props.imagesArr.find(obj => (obj.largeImageURL === this.props.largeImg));
-    console.log(selectedObj)
-
     return (
       this.props.imagesArr.map((image) => (
         <div
@@ -44,9 +37,9 @@ export class Modal extends Component {
           <div
             className={css.Modal}>
             <img
-              src={image.largeImageURL}
+              src={this.props.largeImg}
               alt={image.tags}
-              onClick={this.handleImageClick}
+              // onClick={this.handleImageClick}
             />
           </div>
         </div>
