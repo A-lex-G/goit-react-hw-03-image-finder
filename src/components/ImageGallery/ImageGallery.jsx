@@ -1,5 +1,5 @@
 import { Component } from "react";
-import { fetchedImages } from "Services/imageAPI";
+import { fetchedImages, perPage } from "Services/imageAPI";
 import { ImageGalleryItem } from "components/ImageGalleryItem/ImageGalleryItem";
 import { Button } from "components/Button/Button";
 import { Loader } from "components/Loader/Loader";
@@ -38,11 +38,11 @@ export class ImageGallery extends Component {
           loading: true,
           error: null,
         });
-        const { hits, total, totalHits} = await fetchedImages(query, page);
+        const { hits, total} = await fetchedImages(query, page);
 
         this.setState(prevState => ({
           images: [...prevState.images, ...hits],
-          showButton: page < Math.ceil(total / totalHits)
+          showButton: page < Math.ceil(total / perPage)
         }));
         
       } catch (error) {
