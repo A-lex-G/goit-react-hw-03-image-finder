@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Overlay, Instance } from './Modal,styled';
+import { Overlay, Instance } from './Modal.styled';
 
 export class Modal extends Component {
   state = {
